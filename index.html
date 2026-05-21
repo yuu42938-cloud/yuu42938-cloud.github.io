@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>刘宇 · UI 设计师</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <nav class="nav" aria-label="主导航">
+    <a href="#" class="nav-logo" id="nav-logo" data-action="home">刘宇</a>
+    <div class="nav-links" id="nav-links-home">
+      <a href="#about">关于</a>
+      <a href="#portfolio">作品</a>
+      <a href="#contact">联系</a>
+    </div>
+    <div class="nav-links" id="nav-links-project" hidden>
+      <a href="#" data-action="home">← 返回首页</a>
+      <a href="#" data-action="contact">联系</a>
+    </div>
+  </nav>
+
+  <div id="view-home" class="view is-active">
+    <header id="hero" class="section hero">
+      <div class="hero-inner">
+        <p class="hero-label">UI 设计师</p>
+        <h1 class="hero-title">
+          <span class="hero-line">以界面</span>
+          <span class="hero-line hero-line--accent">传递秩序与温度</span>
+        </h1>
+        <p class="hero-desc">移动端 · 桌面端 · 设计系统</p>
+        <a href="#about" class="hero-scroll" aria-label="向下滚动">
+          <span>向下</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M12 5v14M5 12l7 7 7-7"/>
+          </svg>
+        </a>
+      </div>
+    </header>
+
+    <section id="about" class="section about">
+      <div class="container">
+        <header class="section-head">
+          <span class="section-label">关于我</span>
+          <h2 class="section-title">刘宇</h2>
+        </header>
+        <div class="about-grid">
+          <article class="about-block">
+            <h3 class="about-block-title">工作经历</h3>
+            <ul class="timeline">
+              <li>
+                <time>2025.9 — 2025.12</time>
+                <strong>北京科致行科技有限公司 · UI 实习生</strong>
+                <span>完成多个小程序页面的 UI 设计与视觉优化</span>
+              </li>
+            </ul>
+          </article>
+          <article class="about-block">
+            <h3 class="about-block-title">教育经历</h3>
+            <ul class="timeline">
+              <li>
+                <time>2022 — 2026</time>
+                <strong>艺术设计学 · 学士</strong>
+                <span>成都师范学院</span>
+              </li>
+            </ul>
+          </article>
+          <article class="about-block about-block--tools">
+            <h3 class="about-block-title">软件工具</h3>
+            <div class="tools">
+              <span>Figma</span><span>Photoshop</span><span>Illustrator</span><span>After Effects</span>
+              <span>Stitch</span><span>Lovart</span><span>Cursor</span><span>ChatGPT</span><span>Gemini</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="portfolio" class="section portfolio">
+      <div class="container">
+        <header class="section-head section-head--row">
+          <div>
+            <span class="section-label">作品集</span>
+            <h2 class="section-title">UI 设计</h2>
+          </div>
+          <p class="portfolio-hint">悬停暂停 · 拖拽滚动 · 点击查看大图</p>
+        </header>
+      </div>
+
+      <article class="project-block">
+        <div class="container project-block-head">
+          <div class="project-meta">
+            <span class="project-index">01</span>
+            <div>
+              <h3 class="project-name">粉鱼星球</h3>
+              <p class="project-tag">移动端 · AI 粉丝互动社区</p>
+            </div>
+          </div>
+          <a href="#project-1" class="project-link" data-open-project="1">查看详情 →</a>
+        </div>
+        <div class="marquee-wrap" data-project-preview="1">
+          <div class="marquee-track" tabindex="0" role="region" aria-label="粉鱼星球 作品预览"></div>
+        </div>
+      </article>
+
+      <article class="project-block project-block--alt">
+        <div class="container project-block-head">
+          <div class="project-meta">
+            <span class="project-index">02</span>
+            <div>
+              <h3 class="project-name">妙啊</h3>
+              <p class="project-tag">电脑端 · AI 短视频工具</p>
+            </div>
+          </div>
+          <a href="#project-2" class="project-link" data-open-project="2">查看详情 →</a>
+        </div>
+        <div class="marquee-wrap" data-project-preview="2">
+          <div class="marquee-track marquee-track--reverse" tabindex="0" role="region" aria-label="妙啊 作品预览"></div>
+        </div>
+      </article>
+
+      <article class="project-block">
+        <div class="container project-block-head">
+          <div class="project-meta">
+            <span class="project-index">03</span>
+            <div>
+              <h3 class="project-name">Deep Miner-Dev</h3>
+              <p class="project-tag">B 端 · AI 智能体后台管理系统</p>
+            </div>
+          </div>
+          <a href="#project-3" class="project-link" data-open-project="3">查看详情 →</a>
+        </div>
+        <div class="marquee-wrap" data-project-preview="3">
+          <div class="marquee-track" tabindex="0" role="region" aria-label="Deep Miner-Dev 作品预览"></div>
+        </div>
+      </article>
+    </section>
+
+    <footer id="contact" class="section contact">
+      <div class="container">
+        <header class="section-head">
+          <span class="section-label">联系</span>
+          <h2 class="section-title">保持沟通</h2>
+        </header>
+        <div class="contact-grid">
+          <div class="contact-item">
+            <span class="contact-label">联系电话</span>
+            <a href="tel:+8618090457536" class="contact-value">18090457536</a>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">邮箱</span>
+            <a href="mailto:yuu42938@gmail.com" class="contact-value">yuu42938@gmail.com</a>
+          </div>
+          <div class="contact-item contact-item--qr">
+            <span class="contact-label">微信</span>
+            <figure class="qr-wrap" aria-label="微信二维码">
+              <img src="assets/wechat-qr.png" alt="微信二维码" width="160" height="160" />
+            </figure>
+          </div>
+        </div>
+        <p class="copyright">© 2026 刘宇 · 保留所有权利</p>
+      </div>
+    </footer>
+  </div>
+
+  <div id="view-project" class="view">
+    <header class="section project-hero">
+      <div class="container">
+        <span class="section-label" id="detail-type">手机 App</span>
+        <h1 class="project-hero-title" id="detail-title">粉鱼星球</h1>
+        <p class="project-hero-sub" id="detail-subtitle"></p>
+        <dl class="project-hero-meta">
+          <div>
+            <dt>完成时间</dt>
+            <dd id="detail-year"></dd>
+          </div>
+        </dl>
+      </div>
+    </header>
+
+    <section class="section project-gallery-section" aria-label="作品展示">
+      <p class="container portfolio-hint project-gallery-hint">悬停暂停 · 拖拽滚动 · 点击查看大图</p>
+      <div class="marquee-wrap" id="detail-marquee">
+        <div class="marquee-track" id="detail-track" tabindex="0" role="region" aria-label="项目作品画廊"></div>
+      </div>
+    </section>
+
+    <section class="section project-detail">
+      <div class="container project-detail-grid">
+        <article>
+          <h2 class="detail-heading">项目介绍</h2>
+          <p class="detail-body" id="detail-intro"></p>
+        </article>
+        <article>
+          <h2 class="detail-heading">设计理念</h2>
+          <p class="detail-body" id="detail-concept"></p>
+        </article>
+      </div>
+    </section>
+
+    <div class="detail-footer container">
+      <a href="#" class="project-link" data-action="contact">联系我 →</a>
+    </div>
+  </div>
+
+  <div id="lightbox" class="lightbox" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="图片预览">
+    <button class="lightbox-close" type="button" aria-label="关闭">×</button>
+    <img class="lightbox-img" src="" alt="" />
+  </div>
+
+  <script src="js/projects-data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

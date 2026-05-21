@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>刘宇 · UI 设计师</title>
+  <style>
+    :root {
+      --bg: #fafafa;
+      --bg-elevated: #f0f0f2;
+      --bg-card: #ffffff;
+      --text: #0a0a0c;
+      --text-muted: #5c5c66;
+      --text-dim: #94949e;
+      --accent: #6d28ff;
+      --accent-soft: #7c3aed;
+      --accent-glow: rgba(109, 40, 255, 0.12);
+      --border: rgba(10, 10, 12, 0.08);
+      --font: "PingFang SC", "苹方", "PingFang TC", -apple-system, "Microsoft YaHei", sans-serif;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --section-pad: clamp(5rem, 12vh, 9rem);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: var(--font);
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--text-muted);
+      background: var(--bg);
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem clamp(1.5rem, 5vw, 4rem);
+      background: linear-gradient(to bottom, rgba(250, 250, 250, 0.92), transparent);
+      pointer-events: none;
+    }
+    .nav > * { pointer-events: auto; }
+    .nav-logo {
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.14em;
+      color: var(--text);
+    }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      font-weight: 200;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      transition: color 0.3s var(--ease);
+    }
+    .nav-links a:hover,
+    .nav-links a.is-active { color: var(--accent-soft); }
+
+    .view { display: none; }
+    .view.is-active { display: block; }
+
+    .section { position: relative; padding: var(--section-pad) 0; }
+    .container { width: min(1120px, 92vw); margin: 0 auto; }
+    .section-label {
+      display: block;
+      font-weight: 200;
+      font-size: 0.75rem;
+      letter-spacing: 0.28em;
+      color: var(--accent-soft);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-weight: 600;
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      letter-spacing: 0.06em;
+      color: var(--text);
+      line-height: 1.12;
+    }
+    .section-head { margin-bottom: clamp(2.5rem, 6vh, 4rem); }
+    .section-head--row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .hero {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      background: var(--bg);
+    }
+    .hero-inner { text-align: center; padding: 2rem; }
+    .hero-label {
+      font-weight: 200;
+      font-size: 0.8rem;
+      letter-spacing: 0.4em;
+      color: var(--accent-soft);
+      margin-bottom: 2.5rem;
+    }
+    .hero-title {
+      font-weight: 600;
+      font-size: clamp(2.5rem, 8.5vw, 5rem);
+      line-height: 1.1;
+      letter-spacing: 0.08em;
+      color: var(--text);
+      margin-bottom: 1.75rem;
+    }
+    .hero-line { display: block; }
+    .hero-line--accent {
+      background: linear-gradient(115deg, var(--accent) 0%, #9333ea 55%, #a855f7 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-desc {
+      font-weight: 200;
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      letter-spacing: 0.22em;
+      color: var(--text-dim);
+      margin-bottom: 4.5rem;
+    }
+    .hero-scroll {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 200;
+      font-size: 0.7rem;
+      letter-spacing: 0.28em;
+      color: var(--text-dim);
+      transition: color 0.3s var(--ease), transform 0.3s var(--ease);
+      animation: float 3s ease-in-out infinite;
+    }
+    .hero-scroll:hover { color: var(--accent-soft); transform: translateY(4px); }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+
+    .about { background: var(--bg-elevated); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2rem, 4vw, 3.5rem);
+    }
+    .about-block--tools { grid-column: 1 / -1; }
+    .about-block-title {
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      color: var(--text);
+      margin-bottom: 1.75rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .timeline { list-style: none; display: flex; flex-direction: column; gap: 2rem; }
+    .timeline li { display: grid; gap: 0.35rem; }
+    .timeline time {
+      font-weight: 200;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      color: var(--accent-soft);
+    }
+    .timeline strong {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--text);
+      letter-spacing: 0.04em;
+    }
+    .timeline span {
+      font-weight: 200;
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      line-height: 1.65;
+    }
+    .tools { display: flex; flex-wrap: wrap; gap: 0.65rem 1rem; }
+    .tools span {
+      font-weight: 200;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      padding: 0.5rem 1.15rem;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      color: var(--text-muted);
+      background: var(--bg-card);
+      transition: border-color 0.3s var(--ease), color 0.3s var(--ease);
+    }
+    .tools span:hover {
+      border-color: rgba(109, 40, 255, 0.35);
+      color: var(--accent-soft);
+    }
+
+    .portfolio { padding-bottom: clamp(3rem, 8vh, 5rem); }
+    .portfolio-hint {
+      font-weight: 200;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+    }
+    .project-block { margin-bottom: clamp(3.5rem, 8vh, 6rem); }
+    .project-block--alt {
+      background: var(--bg-elevated);
+      padding: clamp(2.5rem, 5vh, 4rem) 0;
+    }
+    .project-block-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+    .project-meta { display: flex; align-items: flex-start; gap: 1.25rem; }
+    .project-index {
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      color: var(--accent-soft);
+      padding-top: 0.35rem;
+    }
+    .project-name {
+      font-weight: 600;
+      font-size: clamp(1.35rem, 3vw, 1.75rem);
+      letter-spacing: 0.06em;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .project-tag {
+      font-weight: 200;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+      margin-top: 0.35rem;
+    }
+    .project-link {
+      font-weight: 300;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      border-bottom: 1px solid transparent;
+      transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+    }
+    .project-link:hover { color: var(--accent-soft); border-color: var(--accent-soft); }
+
+    .marquee-wrap {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+      cursor: grab;
+    }
+    .marquee-wrap.is-dragging { cursor: grabbing; }
+    .marquee-wrap.is-paused .marquee-track { animation-play-state: paused; }
+    .marquee-track {
+      display: flex;
+      gap: 1.25rem;
+      width: max-content;
+      padding: 0.5rem 0;
+      animation: marquee-scroll 55s linear infinite;
+      will-change: transform;
+      user-select: none;
+    }
+    .marquee-track--reverse { animation-name: marquee-scroll-reverse; }
+    @keyframes marquee-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @keyframes marquee-scroll-reverse {
+      0% { transform: translateX(-50%); }
+      100% { transform: translateX(0); }
+    }
+    .portfolio-card {
+      flex-shrink: 0;
+      overflow: hidden;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      cursor: zoom-in;
+      transition: border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+    }
+    .portfolio-card--desktop {
+      width: clamp(280px, 32vw, 420px);
+      aspect-ratio: 16 / 10;
+      border-radius: 4px;
+    }
+    .portfolio-card--mobile {
+      width: clamp(160px, 18vw, 220px);
+      aspect-ratio: 9 / 19.5;
+      border-radius: 12px;
+    }
+    .portfolio-card:hover {
+      border-color: rgba(109, 40, 255, 0.4);
+      box-shadow: 0 16px 48px var(--accent-glow), 0 0 0 1px rgba(109, 40, 255, 0.08);
+    }
+    .portfolio-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      transition: transform 0.6s var(--ease);
+    }
+    .portfolio-card:hover img { transform: scale(1.02); }
+
+    .project-hero {
+      padding-top: clamp(7rem, 18vh, 10rem);
+      padding-bottom: clamp(2rem, 5vh, 3rem);
+    }
+    .project-hero-title {
+      font-weight: 600;
+      font-size: clamp(2.25rem, 6vw, 3.5rem);
+      letter-spacing: 0.06em;
+      color: var(--text);
+      line-height: 1.12;
+      margin-bottom: 0.75rem;
+    }
+    .project-hero-sub {
+      font-weight: 200;
+      font-size: 1rem;
+      letter-spacing: 0.14em;
+      color: var(--text-dim);
+      margin-bottom: 2rem;
+    }
+    .project-hero-meta {
+      display: flex;
+      gap: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .project-hero-meta dt {
+      font-weight: 200;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      margin-bottom: 0.35rem;
+    }
+    .project-hero-meta dd {
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 0.06em;
+      color: var(--text);
+    }
+    .project-gallery-section {
+      padding-top: 0;
+      padding-bottom: clamp(3rem, 8vh, 5rem);
+    }
+    .project-gallery-hint { margin-bottom: 1.25rem; }
+    .project-detail { background: var(--bg-elevated); }
+    .project-detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2rem, 5vw, 4rem);
+    }
+    .detail-heading {
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      color: var(--text);
+      margin-bottom: 1.25rem;
+    }
+    .detail-body {
+      font-weight: 300;
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+    }
+    .detail-footer {
+      padding: 3rem 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .contact { border-top: 1px solid var(--border); padding-bottom: 3rem; }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+      margin-bottom: 4rem;
+    }
+    .contact-label {
+      display: block;
+      font-weight: 200;
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      color: var(--text-dim);
+      margin-bottom: 0.75rem;
+    }
+    .contact-value {
+      font-weight: 600;
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--text);
+      letter-spacing: 0.04em;
+      transition: color 0.3s var(--ease);
+    }
+    .contact-value:hover { color: var(--accent-soft); }
+    .qr-wrap {
+      width: 160px;
+      padding: 0.75rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    .qr-wrap img { width: 100%; height: auto; display: block; }
+    .copyright {
+      font-weight: 200;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      color: var(--text-dim);
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(250, 250, 250, 0.94);
+      backdrop-filter: blur(16px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s var(--ease), visibility 0.35s;
+    }
+    .lightbox.is-open { opacity: 1; visibility: visible; }
+    .lightbox[hidden] { display: flex; }
+    .lightbox-img {
+      max-width: min(92vw, 1200px);
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 4px;
+      box-shadow: 0 24px 64px rgba(10, 10, 12, 0.12);
+      transform: scale(0.96);
+      transition: transform 0.4s var(--ease);
+    }
+    .lightbox.is-open .lightbox-img { transform: scale(1); }
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: var(--bg-card);
+      color: var(--text);
+      font-size: 1.5rem;
+      line-height: 1;
+      transition: border-color 0.3s, color 0.3s;
+    }
+    .lightbox-close:hover { border-color: var(--accent); color: var(--accent-soft); }
+
+    @media (max-width: 768px) {
+      .nav-links { gap: 1.25rem; }
+      .nav-links a { font-size: 0.7rem; }
+      .about-grid, .project-detail-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .section-head--row, .project-block-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .marquee-track { animation: none; }
+      .hero-scroll { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" aria-label="主导航">
+    <a href="#" class="nav-logo" id="nav-logo" data-action="home">刘宇</a>
+    <div class="nav-links" id="nav-links-home">
+      <a href="#about">关于</a>
+      <a href="#portfolio">作品</a>
+      <a href="#contact">联系</a>
+    </div>
+    <div class="nav-links" id="nav-links-project" hidden>
+      <a href="#" data-action="home">← 返回首页</a>
+      <a href="#" data-action="contact">联系</a>
+    </div>
+  </nav>
+
+  <!-- 首页 -->
+  <div id="view-home" class="view is-active">
+    <header id="hero" class="section hero">
+      <div class="hero-inner">
+        <p class="hero-label">UI 设计师</p>
+        <h1 class="hero-title">
+          <span class="hero-line">以界面</span>
+          <span class="hero-line hero-line--accent">传递秩序与温度</span>
+        </h1>
+        <p class="hero-desc">移动端 · 桌面端 · 设计系统</p>
+        <a href="#about" class="hero-scroll" aria-label="向下滚动">
+          <span>向下</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M12 5v14M5 12l7 7 7-7"/>
+          </svg>
+        </a>
+      </div>
+    </header>
+
+    <section id="about" class="section about">
+      <div class="container">
+        <header class="section-head">
+          <span class="section-label">关于我</span>
+          <h2 class="section-title">刘宇</h2>
+        </header>
+        <div class="about-grid">
+          <article class="about-block">
+            <h3 class="about-block-title">工作经历</h3>
+            <ul class="timeline">
+              <li>
+                <time>2025.9 — 2025.12</time>
+                <strong>北京科致行科技有限公司 · UI 实习生</strong>
+                <span>完成多个小程序页面的 UI 设计与视觉优化</span>
+              </li>
+            </ul>
+          </article>
+          <article class="about-block">
+            <h3 class="about-block-title">教育经历</h3>
+            <ul class="timeline">
+              <li>
+                <time>2022 — 2026</time>
+                <strong>艺术设计学 · 学士</strong>
+                <span>成都师范学院</span>
+              </li>
+            </ul>
+          </article>
+          <article class="about-block about-block--tools">
+            <h3 class="about-block-title">软件工具</h3>
+            <div class="tools">
+              <span>Figma</span><span>Photoshop</span><span>Illustrator</span><span>After Effects</span>
+              <span>Stitch</span><span>Lovart</span><span>Cursor</span><span>ChatGPT</span><span>Gemini</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="portfolio" class="section portfolio">
+      <div class="container">
+        <header class="section-head section-head--row">
+          <div>
+            <span class="section-label">作品集</span>
+            <h2 class="section-title">UI 设计</h2>
+          </div>
+          <p class="portfolio-hint">悬停暂停 · 拖拽滚动 · 点击查看大图</p>
+        </header>
+      </div>
+
+      <article class="project-block">
+        <div class="container project-block-head">
+          <div class="project-meta">
+            <span class="project-index">01</span>
+            <div>
+              <h3 class="project-name">粉鱼星球</h3>
+              <p class="project-tag">移动端 · AI 粉丝互动社区</p>
+            </div>
+          </div>
+          <a href="#project-1" class="project-link" data-open-project="1">查看详情 →</a>
+        </div>
+        <div class="marquee-wrap" data-project-preview="1">
+          <div class="marquee-track" tabindex="0" role="region" aria-label="粉鱼星球 作品预览"></div>
+        </div>
+      </article>
+
+      <article class="project-block project-block--alt">
+        <div class="container project-block-head">
+          <div class="project-meta">
+            <span class="project-index">02</span>
+            <div>
+              <h3 class="project-name">妙啊</h3>
+              <p class="project-tag">电脑端 · AI 短视频工具</p>
+            </div>
+          </div>
+          <a href="#project-2" class="project-link" data-open-project="2">查看详情 →</a>
+        </div>
+        <div class="marquee-wrap" data-project-preview="2">
+          <div class="marquee-track marquee-track--reverse" tabindex="0" role="region" aria-label="妙啊 作品预览"></div>
+        </div>
+      </article>
+
+      <article class="project-block">
+        <div class="container project-block-head">
+          <div class="project-meta">
+            <span class="project-index">03</span>
+            <div>
+              <h3 class="project-name">Deep Miner-Dev</h3>
+              <p class="project-tag">B 端 · AI 智能体后台管理系统</p>
+            </div>
+          </div>
+          <a href="#project-3" class="project-link" data-open-project="3">查看详情 →</a>
+        </div>
+        <div class="marquee-wrap" data-project-preview="3">
+          <div class="marquee-track" tabindex="0" role="region" aria-label="Deep Miner-Dev 作品预览"></div>
+        </div>
+      </article>
+    </section>
+
+    <footer id="contact" class="section contact">
+      <div class="container">
+        <header class="section-head">
+          <span class="section-label">联系</span>
+          <h2 class="section-title">保持沟通</h2>
+        </header>
+        <div class="contact-grid">
+          <div class="contact-item">
+            <span class="contact-label">联系电话</span>
+            <a href="tel:+8618090457536" class="contact-value">18090457536</a>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">邮箱</span>
+            <a href="mailto:yuu42938@gmail.com" class="contact-value">yuu42938@gmail.com</a>
+          </div>
+          <div class="contact-item contact-item--qr">
+            <span class="contact-label">微信</span>
+            <figure class="qr-wrap" aria-label="微信二维码">
+              <img src="assets/wechat-qr.png" alt="微信二维码" width="160" height="160" />
+            </figure>
+          </div>
+        </div>
+        <p class="copyright">© 2026 刘宇 · 保留所有权利</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- 项目详情（单页切换） -->
+  <div id="view-project" class="view">
+    <header class="section project-hero">
+      <div class="container">
+        <span class="section-label" id="detail-type">手机 App</span>
+        <h1 class="project-hero-title" id="detail-title">Flow 生活</h1>
+        <p class="project-hero-sub" id="detail-subtitle">移动端 · 效率工具 App</p>
+        <dl class="project-hero-meta">
+          <div>
+            <dt>完成时间</dt>
+            <dd id="detail-year">2025.03</dd>
+          </div>
+        </dl>
+      </div>
+    </header>
+
+    <section class="section project-gallery-section" aria-label="作品展示">
+      <p class="container portfolio-hint project-gallery-hint">悬停暂停 · 拖拽滚动 · 点击查看大图</p>
+      <div class="marquee-wrap" id="detail-marquee">
+        <div class="marquee-track" id="detail-track" tabindex="0" role="region" aria-label="项目作品画廊"></div>
+      </div>
+    </section>
+
+    <section class="section project-detail">
+      <div class="container project-detail-grid">
+        <article>
+          <h2 class="detail-heading">项目介绍</h2>
+          <p class="detail-body" id="detail-intro"></p>
+        </article>
+        <article>
+          <h2 class="detail-heading">设计理念</h2>
+          <p class="detail-body" id="detail-concept"></p>
+        </article>
+      </div>
+    </section>
+
+    <div class="detail-footer container">
+      <a href="#" class="project-link" data-action="contact">联系我 →</a>
+    </div>
+  </div>
+
+  <div id="lightbox" class="lightbox" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="图片预览">
+    <button class="lightbox-close" type="button" aria-label="关闭">×</button>
+    <img class="lightbox-img" src="" alt="" />
+  </div>
+
+  <script>
+(function () {
+  "use strict";
+
+  /* ========== 可编辑配置 ========== */
+  const PROJECTS = [
+    {
+      id: 1,
+      slug: "project-1",
+      title: "粉鱼星球",
+      subtitle: "移动端 · AI 粉丝互动社区",
+      type: "mobile",
+      typeLabel: "手机 App",
+      year: "2025.12",
+      intro: "粉鱼星球以艺人 AI 分身为核心的粉丝互动社区，通过 AI 对话满足情感陪伴与粉丝经济需求，打造沉浸式追星体验。",
+      concept: "以「兴趣驱动 + 情感连接」为核心，通过轻量化互动与沉浸式内容构建高粘性的粉丝社交场景，让用户在参与、表达与共创中获得归属感与价值感。",
+      colors: ["#e0f7fa", "#5c5c6e", "#6d28ff"],
+      reverse: false,
+      images: [
+        "assets/project-1/01.png",
+        "assets/project-1/02.png",
+        "assets/project-1/03.png",
+        "assets/project-1/04.png",
+        "assets/project-1/05.png",
+        "assets/project-1/06.png",
+        "assets/project-1/07.png",
+        "assets/project-1/08.png",
+        "assets/project-1/09.png"
+      ]
+    },
+    {
+      id: 2,
+      slug: "project-2",
+      title: "妙啊",
+      subtitle: "电脑端 · AI 短视频工具",
+      type: "desktop",
+      typeLabel: "电脑端",
+      year: "2025.9",
+      intro: "面向品牌方与创作者的 AI 短视频营销工具，可快速完成视频创意、脚本、素材生成，提升内容产出效率。平台整合案例分析、AI 分镜、视频合成等功能，高效产出可投放营销视频，兼顾生产效率与内容质量。",
+      concept: "以「AI 能力可视化」为核心，通过清晰的信息架构与模块化交互设计，降低复杂技术的理解与使用门槛，让专业能力高效赋能业务决策。",
+      colors: ["#e8f4fc", "#3d3d48", "#2563eb"],
+      reverse: true,
+      images: [
+        "assets/project-2/01.png",
+        "assets/project-2/02.png",
+        "assets/project-2/03.png",
+        "assets/project-2/04.png",
+        "assets/project-2/05.png",
+        "assets/project-2/06.png",
+        "assets/project-2/07.png",
+        "assets/project-2/08.png",
+        "assets/project-2/09.png"
+      ]
+    },
+    {
+      id: 3,
+      slug: "project-3",
+      title: "Deep Miner-Dev",
+      subtitle: "B 端 · AI 智能体后台管理系统",
+      type: "desktop",
+      typeLabel: "电脑端",
+      year: "2026.1",
+      intro: "AI agent 管理与调度系统，可通过 agent 调用工具完成复杂任务。针对其数据获取、工具建构效率不足的问题，通过管理平台对 agent 及工具能力进行统一管理与优化。",
+      concept: "以「高效构建 × 精准管控」为核心，通过结构化信息架构与流程驱动型设计，打造面向专业人员的智能体开发与管理平台，实现能力沉淀与业务闭环。",
+      colors: ["#f5f6fa", "#3d3d48", "#6d28ff"],
+      reverse: false,
+      images: [
+        "assets/project-3/01.png",
+        "assets/project-3/02.png",
+        "assets/project-3/03.png",
+        "assets/project-3/04.png",
+        "assets/project-3/05.png",
+        "assets/project-3/06.png",
+        "assets/project-3/07.png",
+        "assets/project-3/08.png",
+        "assets/project-3/09.png",
+        "assets/project-3/10.png"
+      ]
+    }
+  ];
+
+  function buildPlaceholder(project, index) {
+    const [c1, c2, c3] = project.colors;
+    const isMobile = project.type === "mobile";
+    const w = isMobile ? 390 : 960;
+    const h = isMobile ? 844 : 600;
+    const num = String(index).padStart(2, "0");
+    const svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + " " + h + '">' +
+      "<defs><linearGradient id=\"g\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">" +
+      '<stop offset="0%" stop-color="' + c1 + '"/>' +
+      '<stop offset="55%" stop-color="' + c2 + '"/>' +
+      '<stop offset="100%" stop-color="' + c3 + '"/>' +
+      "</linearGradient></defs>" +
+      '<rect width="' + w + '" height="' + h + '" fill="url(#g)"/>' +
+      '<text x="' + w / 2 + '" y="' + (h / 2 - 12) + '" text-anchor="middle" fill="rgba(255,255,255,0.85)" font-family="PingFang SC,sans-serif" font-size="' + (isMobile ? 18 : 24) + '" font-weight="600">' + project.title + "</text>" +
+      '<text x="' + w / 2 + '" y="' + (h / 2 + 22) + '" text-anchor="middle" fill="rgba(255,255,255,0.45)" font-family="PingFang SC,sans-serif" font-size="13" font-weight="300">' + num + " · 可替换为真实图片</text>" +
+      "</svg>";
+    return "data:image/svg+xml," + encodeURIComponent(svg);
+  }
+
+  function getProjectImages(project) {
+    if (project.images && project.images.length) {
+      var seen = {};
+      var list = [];
+      project.images.forEach(function (src, i) {
+        if (seen[src]) return;
+        seen[src] = true;
+        var fb = buildPlaceholder(project, list.length + 1);
+        list.push({ src: src, alt: project.title + " 作品 " + (list.length + 1), fallback: fb });
+      });
+      return list;
+    }
+    return Array.from({ length: 10 }, function (_, i) {
+      var fb = buildPlaceholder(project, i + 1);
+      return { src: fb, alt: project.title + " 作品 " + (i + 1), fallback: fb };
+    });
+  }
+
+  function createCard(item, extraClass) {
+    var card = document.createElement("figure");
+    card.className = "portfolio-card" + (extraClass ? " " + extraClass : "");
+    var img = document.createElement("img");
+    img.src = item.src;
+    img.alt = item.alt;
+    img.loading = "lazy";
+    img.draggable = false;
+    img.onerror = function () {
+      if (img.dataset.fallback !== "1") {
+        img.src = item.fallback;
+        img.dataset.fallback = "1";
+      }
+    };
+    card.appendChild(img);
+    card.dataset.fullSrc = item.src;
+    card.dataset.fallbackSrc = item.fallback;
+    return card;
+  }
+
+  function renderTrack(track, items, cardClass) {
+    if (!track) return;
+    track.innerHTML = "";
+    items.forEach(function (item) {
+      track.appendChild(createCard(item, cardClass));
+      track.appendChild(createCard(item, cardClass));
+    });
+  }
+
+  function initMarquee(wrap) {
+    var track = wrap.querySelector(".marquee-track");
+    if (!track) return;
+
+    var isDragging = false;
+    var startX = 0;
+    var startOffset = 0;
+    var currentOffset = 0;
+    var dragMoved = false;
+    var rafId = null;
+
+    function getAnimOffset() {
+      var matrix = new DOMMatrixReadOnly(getComputedStyle(track).transform);
+      return matrix.m41;
+    }
+
+    function applyOffset(px) {
+      track.style.transform = "translateX(" + px + "px)";
+    }
+
+    function freezeToCurrent() {
+      currentOffset = getAnimOffset();
+      track.style.animation = "none";
+      applyOffset(currentOffset);
+    }
+
+    function resumeAnimation() {
+      if (isDragging) return;
+      track.style.animation = "";
+      track.style.transform = "";
+      currentOffset = 0;
+    }
+
+    wrap.addEventListener("mouseenter", function () {
+      wrap.classList.add("is-paused");
+      freezeToCurrent();
+    });
+
+    wrap.addEventListener("mouseleave", function () {
+      wrap.classList.remove("is-paused");
+      if (!isDragging) resumeAnimation();
+    });
+
+    function onPointerDown(e) {
+      if (e.button !== 0) return;
+      isDragging = true;
+      dragMoved = false;
+      wrap.classList.add("is-dragging", "is-paused");
+      freezeToCurrent();
+      startX = e.clientX;
+      startOffset = currentOffset;
+      if (track.setPointerCapture) track.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    }
+
+    function onPointerMove(e) {
+      if (!isDragging) return;
+      var dx = e.clientX - startX;
+      if (Math.abs(dx) > 3) dragMoved = true;
+      currentOffset = startOffset + dx;
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(function () { applyOffset(currentOffset); });
+    }
+
+    function onPointerUp() {
+      if (!isDragging) return;
+      isDragging = false;
+      wrap.classList.remove("is-dragging");
+      if (!wrap.matches(":hover")) {
+        wrap.classList.remove("is-paused");
+        resumeAnimation();
+      }
+    }
+
+    track.addEventListener("pointerdown", onPointerDown);
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerup", onPointerUp);
+
+    track.addEventListener("click", function (e) {
+      if (dragMoved) return;
+      var card = e.target.closest(".portfolio-card");
+      if (!card) return;
+      var img = card.querySelector("img");
+      var src = img && img.dataset.fallback === "1"
+        ? card.dataset.fallbackSrc
+        : (img && (img.currentSrc || img.src)) || card.dataset.fullSrc;
+      openLightbox(src, (img && img.alt) || "");
+    });
+  }
+
+  function initLightbox() {
+    var lb = document.getElementById("lightbox");
+    var lbImg = lb && lb.querySelector(".lightbox-img");
+    var closeBtn = lb && lb.querySelector(".lightbox-close");
+    if (!lb || !lbImg) return;
+
+    function close() {
+      lb.classList.remove("is-open");
+      lb.setAttribute("hidden", "");
+      lb.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    window.openLightbox = function (src, alt) {
+      lbImg.src = src;
+      lbImg.alt = alt;
+      lb.removeAttribute("hidden");
+      lb.setAttribute("aria-hidden", "false");
+      requestAnimationFrame(function () { lb.classList.add("is-open"); });
+      document.body.style.overflow = "hidden";
+    };
+
+    if (closeBtn) closeBtn.addEventListener("click", close);
+    lb.addEventListener("click", function (e) { if (e.target === lb) close(); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && lb.classList.contains("is-open")) close();
+    });
+  }
+
+  function initNavHighlight() {
+    var sections = document.querySelectorAll("#view-home section[id], #view-home header[id]");
+    var links = document.querySelectorAll("#nav-links-home a[href^='#']");
+    if (!links.length) return;
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var id = entry.target.id;
+          links.forEach(function (a) {
+            a.classList.toggle("is-active", a.getAttribute("href") === "#" + id);
+          });
+        });
+      },
+      { rootMargin: "-40% 0px -50% 0px", threshold: 0 }
+    );
+    sections.forEach(function (s) { observer.observe(s); });
+  }
+
+  var viewHome = document.getElementById("view-home");
+  var viewProject = document.getElementById("view-project");
+  var navHome = document.getElementById("nav-links-home");
+  var navProject = document.getElementById("nav-links-project");
+  var detailTrack = document.getElementById("detail-track");
+  var detailMarquee = document.getElementById("detail-marquee");
+  var marqueeInited = new WeakSet();
+
+  function ensureMarquee(wrap) {
+    if (!wrap || marqueeInited.has(wrap)) return;
+    initMarquee(wrap);
+    marqueeInited.add(wrap);
+  }
+
+  function showHome(scrollTo) {
+    viewHome.classList.add("is-active");
+    viewProject.classList.remove("is-active");
+    navHome.hidden = false;
+    navProject.hidden = true;
+    document.title = "刘宇 · UI 设计师";
+    if (scrollTo) {
+      requestAnimationFrame(function () {
+        var el = document.getElementById(scrollTo);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }
+
+  function showProject(id) {
+    var project = PROJECTS.find(function (p) { return p.id === id; });
+    if (!project) return;
+
+    document.getElementById("detail-type").textContent = project.typeLabel;
+    document.getElementById("detail-title").textContent = project.title;
+    document.getElementById("detail-subtitle").textContent = project.subtitle;
+    document.getElementById("detail-year").textContent = project.year;
+    document.getElementById("detail-intro").textContent = project.intro;
+    document.getElementById("detail-concept").textContent = project.concept;
+    document.title = project.title + " · UI 作品集";
+
+    var cardClass = project.type === "mobile" ? "portfolio-card--mobile" : "portfolio-card--desktop";
+    detailTrack.className = "marquee-track" + (project.reverse ? " marquee-track--reverse" : "");
+    renderTrack(detailTrack, getProjectImages(project), cardClass);
+    ensureMarquee(detailMarquee);
+
+    viewHome.classList.remove("is-active");
+    viewProject.classList.add("is-active");
+    navHome.hidden = true;
+    navProject.hidden = false;
+    window.scrollTo(0, 0);
+    location.hash = project.slug;
+  }
+
+  function parseHash() {
+    var hash = (location.hash || "").replace(/^#/, "");
+    if (!hash || hash === "home") {
+      showHome();
+      return;
+    }
+    if (hash === "contact") {
+      showHome("contact");
+      return;
+    }
+    var project = PROJECTS.find(function (p) { return p.slug === hash; });
+    if (project) showProject(project.id);
+    else showHome();
+  }
+
+  function initHomePortfolio() {
+    document.querySelectorAll("[data-project-preview]").forEach(function (wrap) {
+      var id = Number(wrap.dataset.projectPreview);
+      var project = PROJECTS.find(function (p) { return p.id === id; });
+      if (!project) return;
+      var track = wrap.querySelector(".marquee-track");
+      var cardClass = project.type === "mobile" ? "portfolio-card--mobile" : "portfolio-card--desktop";
+      renderTrack(track, getProjectImages(project), cardClass);
+      ensureMarquee(wrap);
+    });
+  }
+
+  document.querySelectorAll("[data-open-project]").forEach(function (el) {
+    el.addEventListener("click", function (e) {
+      e.preventDefault();
+      showProject(Number(el.dataset.openProject));
+    });
+  });
+
+  document.querySelectorAll("[data-action]").forEach(function (el) {
+    el.addEventListener("click", function (e) {
+      var action = el.dataset.action;
+      if (action === "home") {
+        e.preventDefault();
+        history.pushState(null, "", "#");
+        showHome();
+      } else if (action === "contact") {
+        e.preventDefault();
+        history.pushState(null, "", "#contact");
+        showHome("contact");
+      }
+    });
+  });
+
+  window.addEventListener("hashchange", parseHash);
+  window.addEventListener("popstate", parseHash);
+  document.addEventListener("DOMContentLoaded", function () {
+    initLightbox();
+    initNavHighlight();
+    initHomePortfolio();
+    parseHash();
+  });
+})();
+  </script>
+</body>
+</html>
